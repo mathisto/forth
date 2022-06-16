@@ -63,3 +63,10 @@ marker -tm1638.dict
 : disp.fill ( char -- ) 16 for dup shift_out next ;
 : disp.zero_out ( -- ) write.auto ascii.0 disp.fill ;
 : write.grid.auto ( -- ) write.auto disp.zero_out ;
+
+\ TODO:
+\ : tm1638.on ( -- ) ;
+\ : tm1638.clear tm1638.on ( -- ) ;
+\ : tm1638.off ( -- ) ;
+\ : tm1638.puts ( string -- ) ;
+\ : tm1638.marquee ( string -- ) ;
