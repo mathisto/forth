@@ -1,23 +1,25 @@
+\*************************************************
 \ TM1638 8-Digit 8-Segment Display w/ 8 Buttons and 8 LEDs
-\############################################
+\*************************************************
 -tm1638.init
 marker -tm1638.init
-\-------------------------------------------
+
 9 constant strobe
 : tm1638.setup spiclk- strobe output strobe set ;
 tm1638.setup
 
+\*************************************************
 \ ASCII Grid Segment Character Definitions
-\############################################
+\*************************************************
 -tm1638.ascii
 marker -tm1638.ascii
-\-------------------------------------------
 \       __1__
 \     6|     |2
 \      |__7__|
 \     5|     |3
-\      |__4__| .8
-\  87654321
+\      |__4__|  .8
+\
+\  87654321          word
   %00111111 constant ascii.0
   %00000110 constant ascii.1
   %01011011 constant ascii.2
@@ -36,10 +38,11 @@ marker -tm1638.ascii
   %01110001 constant ascii.f
   %00111110 constant ascii.u
 
-#############################################
+\*************************************************
+\ TM1638 Dictionary of `words`
+\*************************************************
 -tm1638.dict
 marker -tm1638.dict
---------------------------------------------
 
 : disp.addr.grid ( 1..8 -- addr ) 1 - 2 * ;
 : disp.addr.led ( 1..8 -- addr ) 2 * 1 - ;
@@ -59,5 +62,4 @@ marker -tm1638.dict
 : init.auto ( -- ) disp.off data.mode.auto ; \ Command 1
 : disp.fill ( char -- ) 16 for dup shift_out next ;
 : disp.zero_out ( -- ) write.auto ascii.0 disp.fill ;
-
-: write.grid.auto  write.auto disp.zero_out ;
+: write.grid.auto ( -- ) write.auto disp.zero_out ;
