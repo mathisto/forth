@@ -5,7 +5,7 @@
 -scamp.init
 marker -scamp.init
 
-: starline  ( n -- ) for 43 emit next ; \ 50 '*' line break
-: scamp.motd ( -- ) about starline ;
 : scamp.pp ( -- ) ' prompt.pretty is prompt ;
-: scamp.init ( -- ) cls scamp.motd scamp.pp ;
+: starline  ( n -- ) 2 spaces for 43 emit next ;
+: scamp.motd ( -- ) about 50 starline cr ; \ 50 '*' line break
+: scamp.init ( -- ) plain cls scamp.motd scamp.pp ;
