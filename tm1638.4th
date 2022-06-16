@@ -43,25 +43,21 @@ marker -tm1638.dict
 
 : disp.addr.grid ( 1..8 -- addr ) 1 - 2 * ;
 : disp.addr.led ( 1..8 -- addr ) 2 * 1 - ;
-: uart.do strobe clear 1 leds ;
-: uart.end 0 leds strobe set ;
-: uart.init uart.end;
+: home ( -- addr ) 1 disp.addr.grid ;
+: uart.do ( -- ) strobe clear 1 leds ;
+: uart.end ( -- ) 0 leds strobe set ;
+: uart.init ( -- ) uart.end ;
 : shift_out ( char -- ) spix drop blink ;
-: shift_out.cmd uart.init uart.do shift_out uart.end ; \ Send a single byte command
-: data.mode.fixed $44 shift_out.cmd ;
-: data.mode.auto $40 shift_out.cmd ;
-: disp.on $8f shift_out.cmd ;
-: disp.off $80 shift_out.cmd ;
+: shift_out.cmd ( cmd -- ) uart.init uart.do shift_out uart.end ; \ Send a single byte command
+: data.mode.fixed ( -- ) $44 shift_out.cmd ;
+: data.mode.auto ( -- ) $40 shift_out.cmd ;
+: disp.on ( -- ) $8f shift_out.cmd ;
+: disp.off ( -- ) $80 shift_out.cmd ;
 : disp.addr ( disp.addr.grid/led -- addr) $0c + ;
-: init.fixed disp.off data.mode.fixed ;
+: init.fixed ( -- ) disp.off data.mode.fixed ;
 : disp.fixed_write ( addr char -- ) init.fixed disp.addr.set disp.on ;
-: init.auto disp.off data.mode.auto ; \ Command 1
+: init.auto ( -- ) disp.off data.mode.auto ; \ Command 1
 : disp.fill ( char -- ) 16 for dup shift_out next ;
-: disp.zero_out $00 disp.fill ;
-: home 1 disp.addr.grid ;
+: disp.zero_out ( -- ) write.auto ascii.0 disp.fill ;
 
-: main
-  init.auto
-  home disp.addr
-  ascii.0 disp.fill
-;
+: write.grid.auto  write.auto disp.zero_out ;
