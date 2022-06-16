@@ -5,7 +5,6 @@
 -prompt
 marker -prompt
 
-\ : prompt.char ( -- ) bold green fg ." > " plain ;
 : prompt.sp ( -- ) \ stack pointer
   blue fg ." <-"
   magenta fg ." tos" \ top of stack
@@ -25,6 +24,5 @@ marker -prompt
 : prompt.pretty ( -- )
   hide green fg cr \ hopefully after 'ok'
   prompt.base prompt.stack cr \ .:|base 10|:..:|stack 1 2 3 4 5 <-tos-|:.
-  \ prompt.char \ >
   plain show
 ;
