@@ -1,25 +1,30 @@
+\*************************************************
+\ A "pretty" prompt for Scamp3's FlashForth
+\ Requires: colors.4th
+\*************************************************
+-prompt
+marker -prompt
+
+\ : prompt.char ( -- ) bold green fg ." > " plain ;
 : prompt.sp ( -- ) \ stack pointer
-  magenta fg ." <-"
-  red fg ." tos"
-  magenta fg ." -"
+  blue fg ." <-"
+  magenta fg ." tos" \ top of stack
+  blue fg ." -"
 ;
-: prompt.char ( -- ) bold green fg ." > " plain ;
 : prompt.base ( -- )
-  blue fg ." .:|base"
-  bl emit \ A space char
-  yellow fg base @ . \ Current numerical base representation
-  blue fg ." |:."
+  blue fg ." .:|base" space
+  yellow fg base @ . \ current numerical base representation
+  blue fg ." :" space
 ;
 : prompt.stack ( -- )
-  blue fg ." .:|stack"
-  bl emit \ A space char
-  yellow fg .s \ Stack
-  prompt.sp \ Stack pointer arrow
+  blue fg ." stack" space
+  yellow fg .s \ stack
+  prompt.sp \ stack pointer arrow
   blue fg ." |:."
 ;
 : prompt.pretty ( -- )
-  green fg cr \ hopefully after 'ok'
-  5 ms
-  prompt.base 5 ms prompt.stack \ .:|base 10|:..:|stack 1 2 3 4 5 <-tos-|:.
-  cr 5 ms prompt.char \ >
+  hide green fg cr \ hopefully after 'ok'
+  prompt.base prompt.stack cr \ .:|base 10|:..:|stack 1 2 3 4 5 <-tos-|:.
+  \ prompt.char \ >
+  plain show
 ;
